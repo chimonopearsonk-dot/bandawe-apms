@@ -1,0 +1,25 @@
+{
+  "name": "Bandawe Zone Academic Performance Management System",
+  "short_name": "Bandawe APMS",
+  "description": "Official zonal portal for primary school assessment and analytics.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#081c2e",
+  "theme_color": "#081c2e",
+  "icons": [
+  {
+    "src": "vendor/webfonts/icon-192.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "any maskable"
+  },
+  {
+    "src": "vendor/webfonts/icon-512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }
+]
+}

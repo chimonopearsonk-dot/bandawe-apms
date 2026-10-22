@@ -1,0 +1,56 @@
+/* =========================================================
+   Bandawe Zone APMS — Application styles
+   Keep the visual language subtle and consistent with Tailwind.
+   ========================================================= */
+
+/* Reusable gradient (kept from the original design) */
+.gradient-bg {
+    background: linear-gradient(135deg, #081c2e 0%, #102a43 100%);
+}
+
+/* Smooth focus states */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+}
+
+/* Keep "Transfer Out" buttons tidy in narrow tables */
+button[data-action="transfer"] {
+    white-space: nowrap;
+}
+
+/* Print rules — subtle, non-destructive */
+@media print {
+    .no-print { display: none !important; }
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    /* When we add downloadable report cards later, they'll
+       be self-contained HTML files, so no print chrome needed here. */
+}
+
+/* Small quality-of-life tweaks */
+.view-section { animation: fadeIn 0.15s ease-in; }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.tab-content { animation: fadeIn 0.12s ease-in; }
+/* =========================================================
+   Remove number spinners from marks input fields
+   ========================================================= */
+input[data-ca],
+input[data-exam] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+input[data-ca]::-webkit-outer-spin-button,
+input[data-ca]::-webkit-inner-spin-button,
+input[data-exam]::-webkit-outer-spin-button,
+input[data-exam]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

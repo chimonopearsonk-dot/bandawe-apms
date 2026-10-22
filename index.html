@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandawe Zone Academic Performance Management System</title>
+
+    <!-- FontAwesome (local) -->
+    <link rel="stylesheet" href="vendor/fontawesome.min.css">
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#081c2e">
+    <link rel="stylesheet" href="css/tailwind.generated.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="icon" href="data:,">
+
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col">
+
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="gradient-bg text-white shadow-md sticky top-0 z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="UIController.showView('landing')">
+                <div id="navBrandLogoWrap" class="w-10 h-10 bg-gold-500 rounded-lg flex items-center justify-center text-navy-900 font-black text-xl shadow overflow-hidden">
+                    <i id="navBrandFallbackIcon" class="fa-solid fa-graduation-cap"></i>
+                    <img id="navBrandLogoImg" class="hidden w-full h-full object-contain" alt="Emblem">
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-lg leading-tight tracking-tight">BANDAWE ZONE EXAMINATION BOARD</h1>
+                    <p class="text-[11px] text-slate-300 font-medium">Ministry of Education Science & Technology</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <div id="userHeaderProfile" class="hidden flex items-center space-x-3 border-r border-slate-700 pr-3">
+                    <div class="text-right hidden sm:block">
+                        <div id="userSchoolName" class="text-xs font-bold text-white"></div>
+                        <div class="text-[10px] text-gold-400 font-mono" id="userEmisCode"></div>
+                    </div>
+                    <button id="headerDashboardBtn" onclick="UIController.showView('dashboard')" class="bg-navy-700 hover:bg-navy-800 text-xs text-white px-3 py-1.5 rounded-md border border-slate-600 transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-gauge-high text-gold-400"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button id="btnOpenSettings" class="bg-navy-700 hover:bg-navy-800 text-xs text-white px-3 py-1.5 rounded-md border border-slate-600 transition flex items-center space-x-1.5" title="School Settings">
+                        <i class="fa-solid fa-gear text-gold-400"></i>
+                        <span class="hidden sm:inline">Settings</span>
+                    </button>
+                    <button id="logoutBtn" class="bg-red-600/80 hover:bg-red-600 text-xs text-white px-2.5 py-1.5 rounded-md transition" title="Sign Out">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+                <div id="offlineQueueBadge" class="hidden items-center bg-amber-500 text-navy-900 text-[10px] font-black px-2 py-1 rounded-full">
+                   ⚠ <span id="offlineQueueCount">0</span> pending
+                </div>
+
+                <div id="navLoginBtn" class="flex items-center space-x-2">
+                    <button onclick="UIController.showAdminLoginModal()" class="text-xs text-slate-300 hover:text-white px-2.5 py-1.5 rounded transition font-medium flex items-center space-x-1">
+                        <i class="fa-solid fa-user-gear text-slate-400"></i>
+                        <span class="hidden sm:inline">Superadmin</span>
+                    </button>
+                    <button onclick="UIController.showView('login')" class="bg-gold-500 hover:bg-gold-600 text-navy-900 text-xs font-bold px-4 py-2 rounded-md shadow transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>School Portal Login</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: PUBLIC LANDING PAGE                -->
+        <!-- ========================================== -->
+        <section id="view-landing" class="view-section">
+            <div id="nextOpeningBanner" class="hidden max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8">
+                <div class="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5 flex items-center gap-2 text-amber-900"></div>
+            </div>
+
+            <div class="gradient-bg text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-navy-700">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="max-w-2xl">
+                        <span class="bg-gold-500/20 text-gold-400 border border-gold-500/30 text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider inline-block mb-3">
+                            Official Zonal Portal 2026-2027
+                        </span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                            Bandawe Zone Standardized Assessment &amp; Analytics
+                        </h2>
+                        <p class="mt-2 text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Centralized academic performance management platform for registered primary schools. Facilitating standardized termly evaluation, progress diagnostics, and MANEB PSLCE mock preparation.
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <button onclick="UIController.showView('login')" class="bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold text-sm px-5 py-3 rounded-lg shadow-lg text-center transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>Access School Portal</span>
+                        </button>
+                        <button onclick="UIController.showRegisterModal()" class="bg-navy-700 hover:bg-navy-800 text-slate-200 border border-slate-600 font-semibold text-sm px-5 py-3 rounded-lg text-center transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-school-circle-exclamation"></i>
+                            <span>Request Registration</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-navy-800 flex items-center space-x-2">
+                                        <i class="fa-solid fa-list-check text-gold-500"></i>
+                                        <span>Zonal Schools Directory</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 mt-0.5">Approved Primary Schools in Bandawe Zone</p>
+                                </div>
+                                <div class="relative w-full sm:w-64">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-400"></i>
+                                    <input type="text" id="schoolSearchInput" placeholder="Search by name or EMIS..." class="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border-collapse">
+                                    <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 uppercase tracking-wider">
+                                        <tr>
+                                            <th class="py-3 px-4">EMIS Code</th>
+                                            <th class="py-3 px-4">School Name</th>
+                                            <th class="py-3 px-4">Zone</th>
+                                            <th class="py-3 px-4">Contact Person</th>
+                                            <th class="py-3 px-4 text-center">Status</th>
+                                            <th class="py-3 px-4 text-right">Portal Access</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="schoolsTableBody" class="divide-y divide-slate-100"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                                <h3 class="font-bold text-navy-800 text-sm flex items-center space-x-2">
+                                    <i class="fa-solid fa-calendar-check text-navy-700"></i>
+                                    <span>Academic Evaluation Framework</span>
+                                </h3>
+                                <span class="bg-navy-50 text-navy-800 text-[11px] font-extrabold px-2 py-0.5 rounded border border-navy-100" id="landingAcademicYearBadge">2026</span>
+                            </div>
+
+                            <div class="space-y-3 text-xs">
+                                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex items-center justify-between">
+                                    <span class="font-semibold text-slate-600">Active Term:</span>
+                                    <span class="font-bold text-navy-800" id="landingTermBadge">Term 1</span>
+                                </div>
+
+                                <div class="p-3 bg-blue-50/60 rounded-lg border border-blue-100">
+                                    <div class="font-bold text-blue-900 flex items-center space-x-1.5 mb-1">
+                                        <i class="fa-solid fa-chart-line text-blue-600"></i>
+                                        <span>Continuous Assessment (CA)</span>
+                                    </div>
+                                    <p class="text-[11px] text-blue-800 leading-snug">
+                                        Utilized strictly for formative diagnostic tracking &amp; learner progress monitoring. CA marks are recorded independently and are <strong>not added</strong> to final term exam scores.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-emerald-50/60 rounded-lg border border-emerald-100">
+                                    <div class="font-bold text-emerald-900 flex items-center space-x-1.5 mb-1">
+                                        <i class="fa-solid fa-file-pen text-emerald-600"></i>
+                                        <span>End of Term Standardized Exam</span>
+                                    </div>
+                                    <p class="text-[11px] text-emerald-800 leading-snug">
+                                        Graded independently as a standardized zonal/district assessment to benchmark inter-school performance.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-purple-50/60 rounded-lg border border-purple-100">
+                                    <div class="font-bold text-purple-900 flex items-center space-x-1.5 mb-1">
+                                        <i class="fa-solid fa-graduation-cap text-purple-600"></i>
+                                        <span>MANEB Standard 8 Mock Exams</span>
+                                    </div>
+                                    <p class="text-[11px] text-purple-800 leading-snug">
+                                        Conducting official practice examinations for Standard 8 learners in preparation for the MANEB Primary School Leaving Certificate (PSLCE).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                                <h3 class="font-bold text-navy-800 text-sm flex items-center space-x-2">
+                                    <i class="fa-solid fa-bullhorn text-gold-500"></i>
+                                    <span>Zonal Announcements</span>
+                                </h3>
+                                <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Official</span>
+                            </div>
+                            <div class="space-y-3" id="landingAnnouncementsList"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: SCHOOL LOGIN PORTAL                -->
+        <!-- ========================================== -->
+        <section id="view-login" class="view-section hidden py-12 px-4">
+            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                <div class="gradient-bg p-6 text-center text-white relative">
+                    <button onclick="UIController.showView('landing')" class="absolute left-4 top-4 text-slate-300 hover:text-white text-xs flex items-center space-x-1">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+
+                    <div class="w-16 h-16 bg-gold-500/20 border-2 border-gold-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+                        <i id="portalLoginIcon" class="fa-solid fa-shield-halved text-2xl text-gold-400 transition-all duration-300"></i>
+                    </div>
+
+                    <h2 class="text-xl font-extrabold tracking-tight">School Portal Sign In</h2>
+                    <p class="text-xs text-slate-300 mt-1">Bandawe Zone Examination Management System</p>
+                </div>
+
+                <form id="loginForm" class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">School EMIS Code</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-id-card absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            <input type="text" id="emisCode" autocomplete="off" required placeholder="e.g. BZ-101" class="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none uppercase font-mono font-semibold">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-xs font-bold text-slate-700 uppercase">Portal Password</label>
+                            <a href="#" id="forgotPasswordLink" class="text-[11px] text-navy-700 font-semibold hover:underline">Forgot Password?</a>
+                        </div>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            <input type="password" id="password" autocomplete="new-password" required placeholder="Enter password" class="w-full pl-9 pr-10 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+
+                            <button type="button" id="togglePasswordBtn" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-xs focus:outline-none">
+                                <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs py-2.5 rounded-lg shadow-md transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-right-to-bracket text-gold-400"></i>
+                        <span>Sign In to Dashboard</span>
+                    </button>
+
+                    <div class="pt-3 border-t border-slate-100 text-center">
+                        <p class="text-[11px] text-slate-500">
+                            Unregistered school?
+                            <button type="button" onclick="UIController.showRegisterModal()" class="text-navy-800 font-bold hover:underline ml-1">
+                                Request Registration Account
+                            </button>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: SCHOOL DASHBOARD                   -->
+        <!-- ========================================== -->
+        <section id="view-dashboard" class="view-section hidden py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Authenticated School Portal</span>
+                        <span class="text-xs text-slate-400">•</span>
+                        <span id="dashAcademicContext" class="text-xs font-semibold text-slate-600">Academic Year 2026 • Term 1</span>
+                    </div>
+                    <h2 id="dashSchoolTitle" class="text-xl sm:text-2xl font-extrabold text-navy-800 mt-1">School Name</h2>
+                    <p class="text-xs text-slate-500 font-mono">EMIS Code: <span id="dashEmisCode" class="font-bold text-navy-700">--</span></p>
+                </div>
+
+                <div class="flex flex-wrap gap-1 bg-slate-100 p-1.5 rounded-lg border border-slate-200 text-xs font-medium">
+                    <button id="tabBtn-enrollment" onclick="UIController.switchTab('enrollment')" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 transition font-medium text-xs">
+                        <i class="fa-solid fa-user-graduate mr-1"></i> Enrollment
+                    </button>
+                    <button id="tabBtn-upload" onclick="UIController.switchTab('upload')" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 transition">
+                        <i class="fa-solid fa-file-csv mr-1"></i> Diagnostic CA &amp; Exam Entry
+                    </button>
+                    <button id="tabBtn-computation" onclick="UIController.switchTab('computation')" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 transition">
+                        <i class="fa-solid fa-calculator mr-1"></i> Results Analytics
+                    </button>
+                    <button id="tabBtn-broadsheet" onclick="UIController.switchTab('broadsheet')" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 transition">
+                        <i class="fa-solid fa-table-list mr-1"></i> Broadsheet
+                    </button>
+                    <button id="tabBtn-reports" onclick="UIController.switchTab('reports')" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 transition">
+                        <i class="fa-solid fa-print mr-1"></i> Report Cards
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- TAB 1: ENROLLMENT -->
+            <div id="tabContent-enrollment" class="tab-content space-y-6">
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-100 pb-4">
+                        <div>
+                            <h3 class="font-bold text-navy-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-users text-gold-500"></i> School Enrollment Management
+                            </h3>
+                            <p class="text-xs text-slate-500">Register learners, filter by class, or bulk-upload from CSV, Excel, JSON or TXT.</p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="flex items-center space-x-2">
+                                <label for="classFilterSelect" class="text-xs font-bold text-slate-600">Filter Class:</label>
+                                <select id="classFilterSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50 focus:bg-white">
+                                    <option value="ALL">All Classes</option>
+                                </select>
+                            </div>
+
+                            <input type="file" id="bulkUploadInput" accept=".csv, .xlsx, .xls, .json, .txt" class="hidden">
+
+                            <button onclick="document.getElementById('bulkUploadInput').click()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-file-import"></i> Bulk Upload
+                            </button>
+
+                            <div class="relative" id="enrollActionsWrap">
+                                <button type="button" id="enrollActionsBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-1.5 rounded-lg border border-slate-300 transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-ellipsis text-slate-500"></i> More Actions
+                                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                </button>
+                                <div id="enrollActionsMenu" class="hidden absolute right-0 mt-1 w-64 bg-white border border-slate-200 rounded-lg shadow-lg z-30 overflow-hidden">
+                                    <button type="button" id="menuDownloadTemplate" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                                        <i class="fa-solid fa-download text-slate-500"></i> Download Enrollment Template
+                                    </button>
+                                    <button type="button" id="menuResequence" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-amber-700 hover:bg-amber-50 flex items-center gap-2 border-t border-slate-100">
+                                        <i class="fa-solid fa-arrow-rotate-right text-amber-600"></i> Re-sequence Class LINs
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="addStudentForm" class="space-y-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Name of Learner *</label>
+                                <input type="text" id="studentName" required placeholder="Full Name"
+                                    class="w-full text-xs px-3 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-navy-800">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Sex *</label>
+                                <select id="studentGender" required
+                                    class="w-full text-xs px-3 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-navy-800">
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Class *</label>
+                                <select id="studentClass" required
+                                    class="w-full text-xs px-3 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-navy-800">
+                                    <option value="Standard 8">Standard 8</option>
+                                    <option value="Standard 7">Standard 7</option>
+                                    <option value="Standard 6">Standard 6</option>
+                                    <option value="Standard 5">Standard 5</option>
+                                    <option value="Standard 4">Standard 4</option>
+                                    <option value="Standard 3">Standard 3</option>
+                                    <option value="Standard 2">Standard 2</option>
+                                    <option value="Standard 1">Standard 1</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Enrollment Type *</label>
+                                <select id="studentEnrollmentType"
+                                    class="w-full text-xs px-3 py-1.5 rounded border border-slate-300 focus:ring-1 focus:ring-navy-800">
+                                    <option value="new">New</option>
+                                    <option value="transfer">Transfer-in</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="transferFields" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Previous School (optional)</label>
+                                <input type="text" id="prevSchool" placeholder="e.g. Mzuzu Govt Primary"
+                                    class="w-full text-xs px-3 py-1.5 rounded border border-slate-300">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Previous LIN (optional)</label>
+                                <input type="text" id="prevLin" placeholder="e.g. STD5-014"
+                                    class="w-full text-xs px-3 py-1.5 rounded border border-slate-300 font-mono">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs py-2 px-4 rounded transition flex items-center gap-1">
+                                <i class="fa-solid fa-user-plus"></i> Add a Learner
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                        <span id="enrollmentCountBadge" class="bg-navy-50 text-navy-800 font-mono font-bold text-xs px-3 py-1 rounded-full border border-navy-200">
+                            0 Enrolled Learner(s) — ALL
+                        </span>
+                        <span class="text-[11px] text-slate-400 italic">LINs are auto-generated per class &amp; never reused.</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200 text-[11px]">
+                                    <th class="py-3 px-4">LIN</th>
+                                    <th class="py-3 px-4">Name of Learner</th>
+                                    <th class="py-3 px-4">Sex</th>
+                                    <th class="py-3 px-4">Class</th>
+                                    <th class="py-3 px-4">Enrollment</th>
+                                    <th class="py-3 px-4 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="enrollmentTableBody" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TAB 2: MARKS ENTRY -->
+            <div id="tabContent-upload" class="tab-content hidden space-y-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-100 pb-4">
+                        <div>
+                            <h3 class="font-bold text-navy-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-pen-to-square text-gold-500"></i> Marks Entry
+                            </h3>
+                            <p class="text-xs text-slate-500">CA for diagnostics · End of Term Exam · PSLCE Mock. Auto-saves on blur.</p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <label class="text-xs font-bold text-slate-600">Class:</label>
+                            <select id="marksClassFilter" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50 focus:bg-white">
+                                <option value="">-- Select Class --</option>
+                            </select>
+
+                            <input type="file" id="marksBulkInput" accept=".csv, .xlsx, .xls, .json, .txt" class="hidden">
+                            <button onclick="document.getElementById('marksBulkInput').click()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-file-import"></i> Bulk Upload
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 w-fit">
+                        <button data-subtab="ca" class="marks-subtab px-4 py-2 rounded-md bg-navy-800 text-white text-xs font-bold transition">
+                            <i class="fa-solid fa-chart-line mr-1"></i> Continuous Assessment
+                        </button>
+                        <button data-subtab="exam" class="marks-subtab px-4 py-2 rounded-md text-slate-600 hover:bg-slate-200 text-xs font-semibold transition">
+                            <i class="fa-solid fa-file-pen mr-1"></i> End of Term Exam
+                        </button>
+                        <button data-subtab="mock" class="marks-subtab px-4 py-2 rounded-md text-slate-600 hover:bg-slate-200 text-xs font-semibold transition">
+                            <i class="fa-solid fa-graduation-cap mr-1"></i> PSLCE Mock
+                        </button>
+                    </div>
+                </div>
+
+                <div id="marks-panel-ca" class="marks-panel bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-3">
+                            <div id="caInnerTabs" class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+                                <button data-caview="daily" class="ca-view-btn px-3 py-1 rounded text-[11px] font-bold bg-navy-700 text-white">Daily Entry</button>
+                                <button data-caview="full"  class="ca-view-btn px-3 py-1 rounded text-[11px] font-semibold text-slate-600 hover:bg-slate-200">Full Grid</button>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs font-bold text-slate-600">Month:</label>
+                                <select id="caMonthSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50 focus:bg-white">
+                                    <option value="">--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 italic">CA is diagnostic-only and does not count toward end-of-term totals.</p>
+                    </div>
+
+                    <div id="ca-view-daily" class="marks-grid-wrap">
+                        <p class="text-xs text-slate-400 italic p-4">Select a class above to load the CA daily-entry grid.</p>
+                    </div>
+                    <div id="ca-view-full" class="marks-grid-wrap hidden">
+                        <p class="text-xs text-slate-400 italic p-4">Select a class above to load the CA audit view.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-3 border-t border-slate-100 mt-3">
+                        <button id="btnExportCaMonthly" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-excel"></i> Export CA (This Month)
+                        </button>
+                        <button id="btnExportCaTerm" class="bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-excel"></i> Export CA (Full Term)
+                        </button>
+                    </div>
+                </div>
+
+                <div id="marks-panel-exam" class="marks-panel hidden bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-3 mb-3">
+                        <h4 class="font-bold text-navy-800 text-sm">End of Term Standardized Exam</h4>
+                        <p class="text-[11px] text-slate-500">Total is calculated out of the full class maximum. Absent learners contribute 0.</p>
+                    </div>
+                    <div class="marks-grid-wrap">
+                        <p class="text-xs text-slate-400 italic p-4">Select a class above to load the exam grid.</p>
+                    </div>
+                </div>
+
+                <div id="marks-panel-mock" class="marks-panel hidden bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="border-b border-slate-100 pb-3 mb-3">
+                        <h4 class="font-bold text-navy-800 text-sm">PSLCE Mock Exam</h4>
+                        <p class="text-[11px] text-slate-500">Separate store — does not interfere with end-of-term exam scores.</p>
+                    </div>
+                    <div class="marks-grid-wrap">
+                        <p class="text-xs text-slate-400 italic p-4">Select a class above to load the mock grid.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TAB 3: ANALYTICS -->
+            <div id="tabContent-computation" class="tab-content hidden space-y-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div>
+                            <h3 class="font-bold text-navy-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-chart-simple text-gold-500"></i> Results Analytics
+                            </h3>
+                            <p class="text-xs text-slate-500">School-wide summary + per-class drill-down.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+                                <button data-type="exam" class="analytics-type-btn px-3 py-1.5 rounded-md bg-navy-800 text-white text-xs font-bold">End of Term</button>
+                                <button data-type="mock" class="analytics-type-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 text-xs font-semibold">Mock</button>
+                            </div>
+                            <select id="analyticsClassSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50">
+                                <option value="ALL">All Classes (School)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="analyticsBody" class="mt-4">
+                        <p class="text-xs text-slate-400 italic">Loading…</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TAB 4: BROADSHEET -->
+            <div id="tabContent-broadsheet" class="tab-content hidden space-y-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div>
+                            <h3 class="font-bold text-navy-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-table-list text-gold-500"></i> Official Broadsheet
+                            </h3>
+                            <p class="text-xs text-slate-500">Ranked results + class summary. Download as Excel.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+                                <button data-type="exam" class="broadsheet-type-btn px-3 py-1.5 rounded-md bg-navy-800 text-white text-xs font-bold">End of Term</button>
+                                <button data-type="mock" class="broadsheet-type-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 text-xs font-semibold">Mock</button>
+                            </div>
+                            <select id="broadsheetClassSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50">
+                                <option value="">-- Select Class --</option>
+                            </select>
+                            <button id="btnExportBroadsheet" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-excel"></i> Export Excel
+                            </button>
+                        </div>
+                    </div>
+                    <div id="broadsheetBody" class="mt-4">
+                        <p class="text-xs text-slate-400 italic p-4">Select a class above to load the broadsheet.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TAB 5: REPORT CARDS -->
+            <div id="tabContent-reports" class="tab-content hidden space-y-4">
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div>
+                            <h3 class="font-bold text-navy-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-file-lines text-gold-500"></i> Report Cards
+                            </h3>
+                            <p class="text-xs text-slate-500">Downloadable report cards — one learner or the whole class.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+                                <button data-type="exam" class="report-type-btn px-3 py-1.5 rounded-md bg-navy-800 text-white text-xs font-bold">End of Term</button>
+                                <button data-type="mock" class="report-type-btn px-3 py-1.5 rounded-md text-slate-600 hover:bg-slate-200 text-xs font-semibold">Mock</button>
+                            </div>
+                            <select id="reportClassSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50">
+                                <option value="">-- Select Class --</option>
+                            </select>
+                            <select id="reportStudentSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-navy-800 bg-slate-50 min-w-[220px]">
+                                <option value="">-- Select Learner --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="reportRemarkEditor" class="hidden bg-amber-50 border border-amber-200 rounded-lg p-3 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-amber-900 uppercase tracking-wide">Remarks (per learner, this term)</span>
+                            <button id="btnSaveRemark" class="bg-navy-800 hover:bg-navy-900 text-white text-[11px] font-bold px-3 py-1 rounded">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Save Remarks
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1">Class Teacher's Remark</label>
+                                <textarea id="classTeacherRemarkInput" rows="2" class="w-full text-xs px-2 py-1.5 border border-amber-300 rounded focus:ring-1 focus:ring-navy-800" placeholder="Auto-generated if left empty"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1">Head Teacher's Remark</label>
+                                <textarea id="headTeacherRemarkInput" rows="2" class="w-full text-xs px-2 py-1.5 border border-amber-300 rounded focus:ring-1 focus:ring-navy-800" placeholder="Auto-generated if left empty"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button id="btnDownloadReport" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-download"></i> Download Report Card
+                        </button>
+                        <button id="btnDownloadClass" class="bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-zipper"></i> Download All (Class)
+                        </button>
+                    </div>
+                </div>
+
+                <div id="reportPreview" class="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+                    <p class="text-xs text-slate-400 italic p-4">Select a class and learner to preview.</p>
+                </div>
+                <iframe id="reportPreviewIframe" class="hidden w-full rounded-xl border border-slate-200 shadow-sm bg-white" style="height:1100px;"></iframe>
+                <button id="btnCloseReportPreview" class="hidden mt-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2 rounded-lg transition">
+                    <i class="fa-solid fa-xmark mr-1"></i> Close Preview
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="bg-navy-900 text-slate-400 text-xs py-8 border-t border-navy-800 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-2 flex items-center space-x-2">
+                        <i class="fa-solid fa-graduation-cap text-gold-500"></i>
+                        <span>Bandawe Zone</span>
+                    </h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Authorized Academic Performance Monitoring System for registered primary schools within Bandawe Zone. Facilitating data-driven education quality monitoring.
+                    </p>
+                </div>
+
+                <div class="md:col-span-2">
+                    <h4 class="text-white font-bold text-sm mb-2 flex items-center space-x-2">
+                        <i class="fa-solid fa-headset text-gold-500"></i>
+                        <span>Zonal Technical Support Desk</span>
+                    </h4>
+                    <div id="footerTechSupport" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]"></div>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500">
+                <p>&copy; 2026 Bandawe Zone • All Rights Reserved.</p>
+                <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+                    <span>System Version 3.0 (Modular)</span>
+                    <button onclick="UIController.showAdminLoginModal()" class="text-slate-400 hover:text-white underline">Superadmin System Settings</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ========================================== -->
+    <!-- MODALS                                     -->
+    <!-- ========================================== -->
+
+    <!-- Register -->
+    <div id="registerModal" class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200">
+            <div class="gradient-bg p-5 text-white flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-base">Request School Registration</h3>
+                    <p class="text-xs text-slate-300">Submit account details for Superadmin verification</p>
+                </div>
+                <button onclick="UIController.closeModal('registerModal')" class="text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="registerForm" class="p-5 space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">School Name</label>
+                    <input type="text" id="regSchoolName" required placeholder="e.g. Bandawe South Primary" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Requested EMIS</label>
+                        <input type="text" id="regEmis" required placeholder="BZ-106" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none uppercase font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Education Zone</label>
+                        <input type="text" id="regZone" readonly value="Bandawe" class="w-full px-3 py-2 text-xs border border-slate-200 bg-slate-100 rounded-lg text-slate-600 font-semibold">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Person Name</label>
+                    <input type="text" id="regContactPerson" required placeholder="e.g. Mr. H. Phiri (Headteacher)" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone Contact</label>
+                        <input type="tel" id="regPhone" required placeholder="+265 999 000 000" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address</label>
+                        <input type="email" id="regEmail" required placeholder="head@school.mw" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs py-2.5 rounded-lg shadow transition">
+                        Submit Registration Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin login -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-slate-200">
+            <div class="gradient-bg p-5 text-white flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-base flex items-center space-x-2">
+                        <i class="fa-solid fa-user-shield text-gold-400"></i>
+                        <span>Superadmin Access</span>
+                    </h3>
+                    <p class="text-xs text-slate-300">Zonal System Administration</p>
+                </div>
+                <button onclick="UIController.closeModal('adminLoginModal')" class="text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="adminLoginForm" class="p-5 space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Admin Passkey</label>
+                    <div class="relative">
+                        <input type="password" id="adminPasskey" autocomplete="new-password" required placeholder="Enter superadmin key" class="w-full px-3 pr-10 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                        <button type="button" id="adminPasskeyToggle" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-xs focus:outline-none">
+                            <i class="fa-solid fa-eye" id="adminPasskeyIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold text-xs py-2.5 rounded-lg transition shadow">
+                    Authenticate Console
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCHOOL SETTINGS MODAL -->
+    <div id="schoolSettingsModal" class="fixed inset-0 bg-navy-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+            <div class="gradient-bg p-4 text-white flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded bg-gold-500/20 border border-gold-400 flex items-center justify-center text-gold-400">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base">School Settings</h3>
+                        <p class="text-[11px] text-slate-300">
+                            <span id="settingsSchoolName">—</span> · <span id="settingsEmis" class="font-mono">—</span>
+                        </p>
+                    </div>
+                </div>
+                <button id="btnCloseSettings" class="text-slate-300 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="p-5 overflow-y-auto space-y-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900">
+                    Upload your school's official signatures, stamp and logo. These appear on all report cards you download. Images are stored securely and embedded into the report card files.
+                </div>
+                <div class="flex justify-end">
+                    <button id="btnChangePassword" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded">
+                        <i class="fa-solid fa-key mr-1"></i> Change Password
+                    </button>
+                </div>
+                <div>
+                    <h4 class="font-bold text-navy-800 text-sm mb-2">Government Emblem (read-only)</h4>
+                    <div id="settingsEmblemPreview"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div id="slot-logo"></div>
+                    <div id="slot-stamp"></div>
+                    <div id="slot-headSign"></div>
+                    <div id="slot-teacherSign"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPERADMIN CONSOLE MODAL -->
+    <div id="adminModal" class="fixed inset-0 bg-navy-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+            <div class="gradient-bg p-4 text-white flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded bg-gold-500/20 border border-gold-400 flex items-center justify-center text-gold-400 font-bold">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base">System Settings &amp; Admin Console</h3>
+                        <p class="text-[11px] text-slate-300">Schools, approvals, bulletins, academic config, branding, backup</p>
+                    </div>
+                </div>
+                <button id="btnCloseAdmin" class="text-slate-300 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="flex-grow flex flex-col md:flex-row overflow-hidden">
+                <!-- Sidebar -->
+                <div class="w-full md:w-56 bg-slate-50 border-r border-slate-200 p-3 space-y-1 overflow-y-auto">
+                    <button data-admin-tab="overview" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold bg-navy-800 text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie"></i> Overview
+                    </button>
+                    <button data-admin-tab="approvals" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-user-check"></i> Pending Requests</span>
+                        <span id="adminPendingBadge" class="bg-amber-500 text-navy-900 text-[10px] font-black px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+                    <button data-admin-tab="schools" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-school"></i> Manage Schools
+                    </button>
+                    <button data-admin-tab="announcements" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-bullhorn"></i> Zonal Bulletins
+                    </button>
+                    <button data-admin-tab="contacts" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-headset"></i> Support Contacts
+                    </button>
+                    <button data-admin-tab="academic" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days"></i> Academic &amp; Next Opening
+                    </button>
+                    <button data-admin-tab="schema" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> Exam Schema
+                    </button>
+                    <button data-admin-tab="branding" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-image"></i> Branding (Emblem)
+                    </button>
+                    <button data-admin-tab="backup" class="admin-tab-btn w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-database"></i> Backup &amp; Restore
+                    </button>
+                </div>
+
+                <!-- Content -->
+                <div class="flex-grow p-5 overflow-y-auto bg-white">
+
+                    <!-- Overview -->
+                    <div id="adminTabContent-overview" class="admin-tab-content space-y-4">
+                        <div class="border-b pb-3">
+                            <h4 class="font-bold text-navy-800 text-sm">Portal Overview</h4>
+                            <p class="text-[11px] text-slate-500">Zone-wide statistics across all registered schools.</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
+                                <div class="text-[10px] font-bold text-blue-700 uppercase tracking-wide">Registered Schools</div>
+                                <div class="text-2xl font-black text-navy-800 mt-1" id="adminStatSchools">—</div>
+                            </div>
+                            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+                                <div class="text-[10px] font-bold text-emerald-700 uppercase tracking-wide">Verified Schools</div>
+                                <div class="text-2xl font-black text-emerald-700 mt-1" id="adminStatVerified">—</div>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-200 p-4 rounded-xl">
+                                <div class="text-[10px] font-bold text-purple-700 uppercase tracking-wide">Enrolled Learners</div>
+                                <div class="text-2xl font-black text-purple-700 mt-1" id="adminStatLearners">—</div>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+                                <div class="text-[10px] font-bold text-amber-700 uppercase tracking-wide">Pending Requests</div>
+                                <div class="text-2xl font-black text-amber-700 mt-1" id="adminStatPending">—</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <h5 class="font-bold text-navy-800 text-xs mb-2">Learners by Class</h5>
+                                <div id="adminStatByClass" class="space-y-1.5 text-xs"></div>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                                <h5 class="font-bold text-navy-800 text-xs mb-2">Learners by School</h5>
+                                <div id="adminStatBySchool" class="space-y-1.5 text-xs"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Approvals -->
+                    <div id="adminTabContent-approvals" class="admin-tab-content hidden space-y-3">
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2">Pending Registration Requests</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs border">
+                                <thead class="bg-slate-100 font-bold">
+                                    <tr>
+                                        <th class="py-2 px-3 text-left">EMIS</th>
+                                        <th class="py-2 px-3 text-left">School</th>
+                                        <th class="py-2 px-3 text-left">Contact Person</th>
+                                        <th class="py-2 px-3 text-left">Phone</th>
+                                        <th class="py-2 px-3 text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminApprovalsTableBody" class="divide-y"></tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2 mt-6">Password Reset Requests</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs border">
+                                <thead class="bg-slate-100 font-bold">
+                                    <tr>
+                                        <th class="py-2 px-3 text-left">EMIS</th>
+                                        <th class="py-2 px-3 text-left">Requested</th>
+                                        <th class="py-2 px-3 text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminPasswordRequestsTableBody" class="divide-y"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Schools -->
+                    <div id="adminTabContent-schools" class="admin-tab-content hidden space-y-4">
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2">Add / Update School</h4>
+                        <form id="adminAddSchoolForm" class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded border">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">EMIS Code</label>
+                                <input type="text" id="adminEmis" required placeholder="BZ-106" class="w-full px-2.5 py-1.5 text-xs border rounded font-mono uppercase">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">School Name</label>
+                                <input type="text" id="adminSchoolName" required placeholder="School Name" class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Contact Person</label>
+                                <input type="text" id="adminContactPerson" required placeholder="Full Name" class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Zone</label>
+                                <input type="text" id="adminSchoolZone" value="Bandawe" class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            </div>
+                            <div class="sm:col-span-2 text-right">
+                                <button type="submit" class="bg-navy-800 text-white font-bold text-xs px-4 py-1.5 rounded">Save School</button>
+                            </div>
+                        </form>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs border">
+                                <thead class="bg-slate-100 font-bold">
+                                    <tr>
+                                        <th class="py-2 px-3 text-left">EMIS</th>
+                                        <th class="py-2 px-3 text-left">School</th>
+                                        <th class="py-2 px-3 text-left">Contact</th>
+                                        <th class="py-2 px-3 text-center">Status</th>
+                                        <th class="py-2 px-3 text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminSchoolsTableBody" class="divide-y"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Announcements -->
+                    <div id="adminTabContent-announcements" class="admin-tab-content hidden space-y-4">
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2">Post Zonal Announcement</h4>
+                        <form id="adminAnnouncementForm" class="space-y-3 bg-slate-50 p-3 rounded border">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Title</label>
+                                <input type="text" id="announcementTitle" required class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Body</label>
+                                <textarea id="announcementBody" required rows="3" class="w-full px-2.5 py-1.5 text-xs border rounded"></textarea>
+                            </div>
+                            <button type="submit" class="bg-gold-500 text-navy-900 font-bold text-xs px-4 py-1.5 rounded">Post Bulletin</button>
+                        </form>
+                        <div id="adminAnnouncementsList" class="space-y-2"></div>
+                    </div>
+
+                    <!-- Contacts -->
+                    <div id="adminTabContent-contacts" class="admin-tab-content hidden space-y-4">
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2">Technical Support Contacts</h4>
+                        <form id="adminSupportContactForm" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-3 rounded border">
+                            <input type="text" id="techOfficerName" required placeholder="Officer Name" class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            <input type="text" id="techOfficerRole" required placeholder="Role" class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            <input type="text" id="techOfficerPhone" required placeholder="+265 ..." class="w-full px-2.5 py-1.5 text-xs border rounded">
+                            <div class="sm:col-span-3 text-right">
+                                <button type="submit" class="bg-navy-800 text-white font-bold text-xs px-4 py-1.5 rounded">Add Contact</button>
+                            </div>
+                        </form>
+                        <div id="adminTechContactsList" class="space-y-2"></div>
+                    </div>
+
+                    <!-- Academic + Next Opening -->
+                    <div id="adminTabContent-academic" class="admin-tab-content hidden space-y-5">
+                        <div>
+                            <h4 class="font-bold text-navy-800 text-sm border-b pb-2 mb-3">Academic Configuration</h4>
+                            <form id="adminAcademicSettingsForm" class="space-y-3 max-w-md">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Academic Year</label>
+                                    <input type="text" id="adminSettingYear" required class="w-full px-3 py-2 text-xs border rounded font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Active Term</label>
+                                    <select id="adminSettingTerm" class="w-full px-3 py-2 text-xs border rounded font-semibold">
+                                        <option>Term 1</option>
+                                        <option>Term 2</option>
+                                        <option>Term 3</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded">Save Academic Settings</button>
+                            </form>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-navy-800 text-sm border-b pb-2 mb-3">Next Term Opening</h4>
+                            <form id="adminNextOpeningForm" class="space-y-3 max-w-md">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Opening Date</label>
+                                    <input type="date" id="adminNextOpeningDate" class="w-full px-3 py-2 text-xs border rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Note (optional)</label>
+                                    <input type="text" id="adminNextOpeningNote" placeholder="e.g. Term 2 opens for all learners" class="w-full px-3 py-2 text-xs border rounded">
+                                </div>
+                                <button type="submit" class="bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded">Save Next Opening</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Schema Editor -->
+                    <div id="adminTabContent-schema" class="admin-tab-content hidden space-y-4">
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2">Exam Schema per Class</h4>
+                        <p class="text-xs text-slate-500">Configure which subjects are examined in each class, and the max score per subject.</p>
+
+                        <div class="flex items-center gap-3 bg-slate-50 p-3 rounded border">
+                            <label class="text-xs font-bold text-slate-700">Class:</label>
+                            <select id="adminSchemaClassSelect" class="text-xs border rounded px-2 py-1.5 font-semibold"></select>
+                            <label class="text-xs font-bold text-slate-700 ml-3">Max per Subject:</label>
+                            <input type="number" id="adminSchemaMax" min="1" max="200" class="w-20 text-xs border rounded px-2 py-1.5 font-mono">
+                        </div>
+
+                        <div>
+                            <div class="text-[11px] font-bold text-slate-600 uppercase mb-2">Subjects Examined</div>
+                            <div id="adminSchemaSubjects" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+                        </div>
+
+                        <div class="text-right">
+                            <button id="btnSaveSchema" class="bg-navy-800 text-white font-bold text-xs px-4 py-2 rounded">Save Schema for This Class</button>
+                        </div>
+                    </div>
+
+                    <!-- Branding -->
+                    <div id="adminTabContent-branding" class="admin-tab-content hidden space-y-4">
+                        <h4 class="font-bold text-navy-800 text-sm border-b pb-2">Government Emblem</h4>
+                        <p class="text-xs text-slate-500">This appears on the top-left of every report card. School-specific logos are uploaded by each school.</p>
+                        <div id="emblemSlot" class="my-3"></div>
+                        <div class="flex gap-2">
+                            <label class="cursor-pointer bg-navy-800 hover:bg-navy-900 text-white text-xs font-bold px-3 py-2 rounded">
+                                <i class="fa-solid fa-upload mr-1"></i> Upload Emblem
+                                <input type="file" id="upload-emblem" accept="image/*" class="hidden">
+                            </label>
+                            <button id="clear-emblem" class="bg-red-100 hover:bg-red-200 text-red-700 text-xs font-bold px-3 py-2 rounded">
+                                <i class="fa-solid fa-xmark mr-1"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Backup -->
+                    <div id="adminTabContent-backup" class="admin-tab-content hidden space-y-5">
+                        <div>
+                            <h4 class="font-bold text-navy-800 text-sm border-b pb-2 mb-3">Export Backup</h4>
+                            <p class="text-xs text-slate-500 mb-2">Download a full JSON snapshot of schools, learners, marks, remarks, and settings.</p>
+                            <button id="btnExportBackup" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-4 py-2 rounded">
+                                <i class="fa-solid fa-download mr-1"></i> Download Full Backup
+                            </button>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-navy-800 text-sm border-b pb-2 mb-3">Import Backup</h4>
+                            <p class="text-xs text-red-600 mb-2"><strong>Warning:</strong> This overwrites all current data.</p>
+                            <label class="cursor-pointer bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-4 py-2 rounded inline-flex items-center gap-1.5">
+                                <i class="fa-solid fa-upload"></i> Import Backup File
+                                <input type="file" id="importBackupInput" accept=".json" class="hidden">
+                            </label>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-200">
+                            <h4 class="font-bold text-red-700 text-sm border-b border-red-200 pb-2 mb-3">Danger Zone</h4>
+                            <button id="btnFactoryReset" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded">
+                                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Factory Reset (erase everything)
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- First-login password change -->
+    <div id="firstLoginModal" class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-slate-200">
+            <div class="gradient-bg p-5 text-white">
+                <h3 class="font-bold text-base">Update Default Password</h3>
+                <p class="text-xs text-slate-300">Set a custom password for your school account</p>
+            </div>
+            <form id="firstLoginForm" class="p-5 space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">New Password</label>
+                    <div class="relative">
+                        <input type="password" id="newPassword" required minlength="6" placeholder="Enter new password" class="w-full px-3 pr-10 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                        <button type="button" id="newPasswordToggle" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-xs focus:outline-none">
+                            <i class="fa-solid fa-eye" id="newPasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Confirm New Password</label>
+                    <div class="relative">
+                        <input type="password" id="confirmPassword" required minlength="6" placeholder="Confirm password" class="w-full px-3 pr-10 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-navy-700 focus:outline-none">
+                        <button type="button" id="confirmPasswordToggle" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-xs focus:outline-none">
+                            <i class="fa-solid fa-eye" id="confirmPasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-navy-800 hover:bg-navy-900 text-white font-bold text-xs py-2.5 rounded-lg shadow transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-floppy-disk text-gold-400"></i>
+                    <span>Save New Password</span>
+                </button>
+                <button type="button" onclick="UIController.closeModal('firstLoginModal')" class="w-full text-slate-500 hover:text-slate-700 text-[11px] font-semibold py-1.5">
+                    Cancel — I'll do this later
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password recovery -->
+    <div id="recoveryModal" class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-slate-200">
+            <div class="gradient-bg p-5 text-white flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-base">Password Recovery</h3>
+                    <p class="text-xs text-slate-300">Submit recovery notification to Zonal Admin</p>
+                </div>
+                <button onclick="UIController.closeModal('recoveryModal')" class="text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="recoveryForm" class="p-5 space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">School EMIS Code</label>
+                    <input type="text" required placeholder="e.g. BZ-101" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg uppercase font-mono">
+                </div>
+                <button type="submit" class="w-full bg-navy-800 text-white font-bold text-xs py-2.5 rounded-lg shadow transition">
+                    Request Password Reset
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
