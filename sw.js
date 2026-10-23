@@ -23,7 +23,7 @@ function stripRedirected(response) {
  * Bump CACHE_VERSION whenever you deploy changes so clients pick them up.
  */
 
-const CACHE_VERSION = 'bandawe-apms-v8';
+const CACHE_VERSION = 'bandawe-apms-v10';
 
 const PRECACHE_URLS = [
   './',
