@@ -1,4 +1,18 @@
 /**
+ * Cloudflare Pages redirects /index.html to /.
+ * When we cache the response, it carries a `redirected` flag.
+ * Browsers reject redirected responses for navigation requests.
+ * Reconstruct the response to remove the flag.
+ */
+function stripRedirected(response) {
+  if (!response || !response.redirected) return response;
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+}
+/**
  * Bandawe Zone APMS — Service Worker
  *
  * Strategy:
@@ -13,7 +27,6 @@ const CACHE_VERSION = 'bandawe-apms-v8';
 
 const PRECACHE_URLS = [
   './',
-  './index.html',
   './manifest.json',
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
 
@@ -88,6 +101,17 @@ self.addEventListener('activate', event => {
   );
 });
 
+/* Cloudflare Pages redirects /index.html → /. Strip the redirected flag
+   so browsers will accept the cached response for navigation requests. */
+function stripRedirected(response) {
+  if (!response || !response.redirected) return response;
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+}
+
 /* Fetch: cache-first with network fallback */
 self.addEventListener('fetch', event => {
   const req = event.request;
@@ -101,7 +125,7 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     caches.match(req).then(cached => {
-      if (cached) return cached;
+      if (cached) return stripRedirected(cached);
 
       // Not in cache — fetch and store a copy
       return fetch(req).then(res => {
@@ -109,9 +133,12 @@ self.addEventListener('fetch', event => {
         const copy = res.clone();
         caches.open(CACHE_VERSION).then(cache => cache.put(req, copy));
         return res;
-      }).catch(() => {
+      }).catch(async () => {
         // If fetch fails and the request was for the HTML shell, serve cached index.html
-        if (req.mode === 'navigate') return caches.match('./index.html');
+        if (req.mode === 'navigate') {
+          const fallback = (await caches.match('./index.html')) || (await caches.match('./'));
+          return fallback ? stripRedirected(fallback) : Response.error();
+        }
       });
     })
   );
